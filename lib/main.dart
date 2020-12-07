@@ -10,11 +10,11 @@ Future<void> main() async {
     name: 'db2',
     options: Platform.isIOS || Platform.isMacOS
         ? FirebaseOptions(
-            appId: '1:297855924061:ios:c6de2b69b03a5be8',
-            apiKey: 'AIzaSyD_shO5mfO9lhy2TVWhfo1VUmARKlG4suk',
-            projectId: 'flutter-firebase-plugins',
-            messagingSenderId: '297855924061',
-            databaseURL: 'https://flutterfire-cd2f7.firebaseio.com',
+            appId: '1:993836699208:ios:bf6d3844ab2a413ffb527d',
+            apiKey: 'AIzaSyArqKe0S8aYMYwRyeQ7oN1nxsHVrUOasdI',
+            projectId: 'uberclone-983d8',
+            messagingSenderId: '993836699208',
+            databaseURL: 'https://uberclone-983d8-default-rtdb.firebaseio.com',
           )
         : FirebaseOptions(
             appId: '1:993836699208:android:38e77634e960cf32fb527d',
