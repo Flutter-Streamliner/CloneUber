@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uber_clone_app/brand_colors.dart';
+import 'package:uber_clone_app/screens/registration_page.dart';
 
 class LoginPage extends StatelessWidget {
+  static const String routeName = 'login';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +89,10 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RegistrationPage.routeName, (route) => false);
+                  },
                   child: Text('Don\'t have an account, sign up here'),
                 )
               ],
