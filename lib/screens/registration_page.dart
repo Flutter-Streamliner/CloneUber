@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uber_clone_app/brand_colors.dart';
 import 'package:uber_clone_app/screens/login_page.dart';
+import 'package:uber_clone_app/widgets/confirm_button.dart';
 
 class RegistrationPage extends StatelessWidget {
   static const String routeName = 'register';
@@ -103,23 +104,9 @@ class RegistrationPage extends StatelessWidget {
                       SizedBox(
                         height: 40,
                       ),
-                      RaisedButton(
+                      ConfirmButton(
+                        title: 'REGISTER',
                         onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        color: BrandColors.colorGreen,
-                        textColor: Colors.white,
-                        child: Container(
-                          height: 50,
-                          child: Center(
-                            child: Text(
-                              'REGISTER',
-                              style: TextStyle(
-                                  fontSize: 18, fontFamily: 'Brand-Bold'),
-                            ),
-                          ),
-                        ),
                       ),
                     ],
                   ),
