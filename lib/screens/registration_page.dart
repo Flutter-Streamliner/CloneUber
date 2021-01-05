@@ -1,10 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:uber_clone_app/brand_colors.dart';
 import 'package:uber_clone_app/screens/login_page.dart';
 import 'package:uber_clone_app/widgets/confirm_button.dart';
 
 class RegistrationPage extends StatelessWidget {
   static const String routeName = 'register';
+
+  final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
+
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void showSnackBar(title, context) {
+    final SnackBar snackBar = SnackBar(
+      content: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 15),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void registerUser() async {
+    auth.UserCredential credential = await _auth.createUserWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+    if (credential.user != null) {
+      print('Registration successful');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +65,7 @@ class RegistrationPage extends StatelessWidget {
                     children: [
                       // Full name
                       TextField(
+                        controller: fullNameController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                             labelText: 'Full name',
@@ -55,6 +83,7 @@ class RegistrationPage extends StatelessWidget {
                       ),
                       // Email
                       TextField(
+                        controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                             labelText: 'Email address',
@@ -72,6 +101,7 @@ class RegistrationPage extends StatelessWidget {
                       ),
                       // Phone
                       TextField(
+                        controller: phoneController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                             labelText: 'Phone number',
@@ -89,6 +119,7 @@ class RegistrationPage extends StatelessWidget {
                       ),
                       // Password
                       TextField(
+                        controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                             labelText: 'Password',
@@ -106,7 +137,38 @@ class RegistrationPage extends StatelessWidget {
                       ),
                       ConfirmButton(
                         title: 'REGISTER',
-                        onPressed: () {},
+                        onPressed: () {
+                          // check network availability
+
+                          if (fullNameController.text.trim().length < 3) {
+                            showSnackBar(
+                                'Please provide a valid full name', context);
+                            return;
+                          }
+                          if (!emailController.text.contains('@')) {
+                            showSnackBar(
+                                'Please provide a correct email address',
+                                context);
+                            return;
+                          }
+                          if (emailController.text.trim().length < 5) {
+                            showSnackBar('Please provide a valid email address',
+                                context);
+                            return;
+                          }
+                          if (phoneController.text.trim().length < 10) {
+                            showSnackBar(
+                                'Please provide a valid phone number', context);
+                            return;
+                          }
+                          if (passwordController.text.trim().length < 8) {
+                            showSnackBar(
+                                'Password must be at least 8 characters',
+                                context);
+                            return;
+                          }
+                          registerUser();
+                        },
                       ),
                     ],
                   ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uber_clone_app/brand_colors.dart';
 import 'package:uber_clone_app/screens/registration_page.dart';
 import 'package:uber_clone_app/widgets/confirm_button.dart';
 
