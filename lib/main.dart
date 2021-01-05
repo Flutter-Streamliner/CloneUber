@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:uber_clone_app/screens/login_page.dart';
 import 'package:uber_clone_app/screens/main_page.dart';
 
 Future<void> main() async {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Brand-Regular',
         primarySwatch: Colors.blue,
       ),
-      home: MainPage(),
+      home: LoginPage(),
     );
   }
 }
