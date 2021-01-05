@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uber_clone_app/brand_colors.dart';
 
-class LoginPage extends StatelessWidget {
+class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
                   height: 40,
                 ),
                 Text(
-                  'Sign In as a Rider',
+                  'Create a Rider\'s Account',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
                 ),
@@ -33,6 +33,24 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
+                      // Full name
+                      TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelText: 'Full name',
+                            labelStyle: TextStyle(
+                              fontSize: 14.0,
+                            ),
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 10.0)),
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // Email
                       TextField(
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -49,6 +67,24 @@ class LoginPage extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
+                      // Phone
+                      TextField(
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                            labelText: 'Phone number',
+                            labelStyle: TextStyle(
+                              fontSize: 14.0,
+                            ),
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 10.0)),
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // Password
                       TextField(
                         obscureText: true,
                         decoration: InputDecoration(
@@ -76,7 +112,7 @@ class LoginPage extends StatelessWidget {
                           height: 50,
                           child: Center(
                             child: Text(
-                              'LOGIN',
+                              'REGISTER',
                               style: TextStyle(
                                   fontSize: 18, fontFamily: 'Brand-Bold'),
                             ),
@@ -88,7 +124,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 FlatButton(
                   onPressed: () {},
-                  child: Text('Don\'t have an account, sign up here'),
+                  child: Text('Already have a Rider account? Log in'),
                 )
               ],
             ),
