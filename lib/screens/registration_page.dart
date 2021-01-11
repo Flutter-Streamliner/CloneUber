@@ -1,11 +1,12 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uber_clone_app/screens/login_page.dart';
 import 'package:uber_clone_app/screens/main_page.dart';
+import 'package:uber_clone_app/utils/connection.dart';
 import 'package:uber_clone_app/widgets/confirm_button.dart';
+import 'package:uber_clone_app/widgets/progress_dialog.dart';
 
 class RegistrationPage extends StatefulWidget {
   static const String routeName = 'register';
@@ -37,11 +38,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   void registerUser() async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => ProgressDialog('Registering you...'));
     auth.UserCredential credential = await _auth
         .createUserWithEmailAndPassword(
             email: emailController.text, password: passwordController.text)
         .catchError((error) {
       // check error and display message
+      Navigator.pop(context);
       PlatformException exception = error;
       showSnackBar(exception.message);
     });
@@ -179,10 +185,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         title: 'REGISTER',
                         onPressed: () async {
                           // check network availability
-                          var connectivityResult =
-                              await Connectivity().checkConnectivity();
-                          if (connectivityResult != ConnectivityResult.mobile &&
-                              connectivityResult != ConnectivityResult.wifi) {
+                          if (!await Connection.checkConnection()) {
                             showSnackBar('No internet');
                             return;
                           }

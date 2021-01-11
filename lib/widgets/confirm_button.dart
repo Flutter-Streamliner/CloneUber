@@ -8,13 +8,13 @@ class ConfirmButton extends StatelessWidget {
 
   ConfirmButton(
       {@required this.title,
-      this.onPressed,
+      @required this.onPressed,
       this.color = BrandColors.colorGreen});
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      onPressed: onPressed,
+      onPressed: () => onPressed(),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
       ),
