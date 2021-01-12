@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:uber_clone_app/brand_colors.dart';
@@ -16,13 +17,54 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  Completer<GoogleMapController> _controller = Completer();
+  Completer<GoogleMapController> _mapControllerCompleter = Completer();
+  GoogleMapController _mapController;
   double mapBottomPadding = 0;
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
   double searchSheetHeight = Platform.isIOS ? 300 : 275;
+
+  Position currentPosition;
+
+  void setupPositionLocator() async {
+    currentPosition = await _determinePosition();
+
+    LatLng pos = LatLng(currentPosition.latitude, currentPosition.longitude);
+    CameraPosition cameraPosition = CameraPosition(target: pos, zoom: 14);
+    _mapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
+
+  /// Determine the current position of the device.
+  ///
+  /// When the location services are not enabled or permissions
+  /// are denied the `Future` will return an error.
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location service are disabled');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permission are permantly denied, we cannot request permissions.');
+    }
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        return Future.error(
+            'Location permission are denied (actual value: $permission).');
+      }
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,15 +143,20 @@ class _MainPageState extends State<MainPage> {
         body: Stack(
           children: [
             GoogleMap(
+              myLocationEnabled: true,
+              zoomGesturesEnabled: true,
+              zoomControlsEnabled: true,
               padding: EdgeInsets.only(bottom: mapBottomPadding),
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
               initialCameraPosition: _kGooglePlex,
               onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
+                _mapControllerCompleter.complete(controller);
+                _mapController = controller;
                 setState(() {
                   mapBottomPadding = Platform.isAndroid ? 280 : 270;
                 });
+                setupPositionLocator();
               },
             ),
             // Menu
