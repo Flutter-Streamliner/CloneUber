@@ -15,6 +15,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
   double mapBottomPadding = 0;
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -26,6 +27,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         drawer: Container(
           width: 250,
           color: Colors.white,
@@ -116,7 +118,7 @@ class _MainPageState extends State<MainPage> {
               left: 20,
               child: GestureDetector(
                 onTap: () {
-                  Scaffold.of(context).openDrawer();
+                  _scaffoldKey.currentState.openDrawer();
                 },
                 child: Container(
                   decoration: BoxDecoration(
