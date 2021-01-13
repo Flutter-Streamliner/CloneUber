@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:uber_clone_app/brand_colors.dart';
+import 'package:uber_clone_app/helpers/helper_methods.dart';
 import 'package:uber_clone_app/styles/styles.dart';
 import 'package:uber_clone_app/widgets/brand_divider.dart';
 
@@ -35,6 +36,9 @@ class _MainPageState extends State<MainPage> {
     CameraPosition cameraPosition = CameraPosition(target: pos, zoom: 14);
     _mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    String address = await HelperMethods.findCordinateAddress(pos);
+    print('address = $address');
   }
 
   /// Determine the current position of the device.
