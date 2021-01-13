@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:uber_clone_app/brand_colors.dart';
 import 'package:uber_clone_app/helpers/helper_methods.dart';
+import 'package:uber_clone_app/providers/app_data.dart';
 import 'package:uber_clone_app/styles/styles.dart';
 import 'package:uber_clone_app/widgets/brand_divider.dart';
 
@@ -37,7 +39,7 @@ class _MainPageState extends State<MainPage> {
     _mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    String address = await HelperMethods.findCordinateAddress(pos);
+    String address = await HelperMethods.findCordinateAddress(pos, context);
     print('address = $address');
   }
 
@@ -268,7 +270,13 @@ class _MainPageState extends State<MainPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Add Home'),
+                              Text(Provider.of<AppData>(context)
+                                          .pickeupAddress !=
+                                      null
+                                  ? Provider.of<AppData>(context)
+                                      .pickeupAddress
+                                      .placeName
+                                  : 'Add Home'),
                               SizedBox(
                                 height: 3,
                               ),
