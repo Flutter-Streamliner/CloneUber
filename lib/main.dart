@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uber_clone_app/providers/app_data.dart';
 import 'package:uber_clone_app/screens/login_page.dart';
 import 'package:uber_clone_app/screens/main_page.dart';
 import 'package:uber_clone_app/screens/registration_page.dart';
@@ -32,18 +34,21 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Uber',
-      theme: ThemeData(
-        fontFamily: 'Brand-Regular',
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (context) => AppData(),
+      child: MaterialApp(
+        title: 'Flutter Uber',
+        theme: ThemeData(
+          fontFamily: 'Brand-Regular',
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: MainPage.routeName,
+        routes: {
+          RegistrationPage.routeName: (context) => RegistrationPage(),
+          LoginPage.routeName: (context) => LoginPage(),
+          MainPage.routeName: (context) => MainPage(),
+        },
       ),
-      initialRoute: MainPage.routeName,
-      routes: {
-        RegistrationPage.routeName: (context) => RegistrationPage(),
-        LoginPage.routeName: (context) => LoginPage(),
-        MainPage.routeName: (context) => MainPage(),
-      },
     );
   }
 }
