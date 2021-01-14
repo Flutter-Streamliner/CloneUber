@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:uber_clone_app/brand_colors.dart';
 import 'package:uber_clone_app/helpers/helper_methods.dart';
 import 'package:uber_clone_app/providers/app_data.dart';
+import 'package:uber_clone_app/screens/search_page.dart';
 import 'package:uber_clone_app/styles/styles.dart';
 import 'package:uber_clone_app/widgets/brand_divider.dart';
 
@@ -230,31 +231,39 @@ class _MainPageState extends State<MainPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(4),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 5.0,
-                                spreadRadius: 0.5,
-                                offset: Offset(0.7, 0.7),
-                              ),
-                            ]),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.search,
-                                color: Colors.blueAccent,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text('Search Destination'),
-                            ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SearchPage()));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 5.0,
+                                  spreadRadius: 0.5,
+                                  offset: Offset(0.7, 0.7),
+                                ),
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.blueAccent,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text('Search Destination'),
+                              ],
+                            ),
                           ),
                         ),
                       ),
