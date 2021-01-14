@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uber_clone_app/brand_colors.dart';
+import 'package:uber_clone_app/global_variables.dart';
+import 'package:uber_clone_app/helpers/request_helper.dart';
 import 'package:uber_clone_app/providers/app_data.dart';
 
 class SearchPage extends StatefulWidget {
@@ -19,6 +23,20 @@ class _SearchPageState extends State<SearchPage> {
       FocusScope.of(context).requestFocus(_focusDestionation);
       _focused = true;
     }
+  }
+
+  void searchPlace(String placeName) async {
+    if (placeName.length <= 1) {
+      return;
+    }
+    String apiKey = Platform.isAndroid ? androidKey : iOsKey;
+    String url =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$apiKey&sessiontoken=1234567890';
+    var response = await RequestHelper.getRequest(url);
+    if (response == 'failed') {
+      return;
+    }
+    print(response);
   }
 
   @override
@@ -124,6 +142,7 @@ class _SearchPageState extends State<SearchPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: TextField(
+                              onChanged: (place) => searchPlace(place),
                               focusNode: _focusDestionation,
                               controller: _destinationController,
                               decoration: InputDecoration(
