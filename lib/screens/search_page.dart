@@ -8,6 +8,8 @@ import 'package:uber_clone_app/global_variables.dart';
 import 'package:uber_clone_app/helpers/request_helper.dart';
 import 'package:uber_clone_app/models/prediction.dart';
 import 'package:uber_clone_app/providers/app_data.dart';
+import 'package:uber_clone_app/widgets/brand_divider.dart';
+import 'package:uber_clone_app/widgets/prediction_item.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -19,6 +21,8 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController _destinationController = TextEditingController();
   FocusNode _focusDestionation = FocusNode();
   bool _focused = false;
+
+  List<Prediction> _destinationPredictionList = [];
 
   void setFocus() {
     if (!_focused) {
@@ -43,7 +47,9 @@ class _SearchPageState extends State<SearchPage> {
       List<Prediction> predictions = jsonList
           .map((prediction) => Prediction.fromJson(prediction))
           .toList() as List<Prediction>;
-      print('PREDICTIONS = $predictions');
+      setState(() {
+        _destinationPredictionList = predictions;
+      });
     }
   }
 
@@ -170,7 +176,23 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-            )
+            ),
+            _destinationPredictionList.length > 0
+                ? Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16),
+                      child: ListView.separated(
+                          padding: const EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          separatorBuilder: (context, index) => BrandDivider(),
+                          itemCount: _destinationPredictionList.length,
+                          itemBuilder: (context, index) => PredictionItem(
+                              _destinationPredictionList[index])),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),
