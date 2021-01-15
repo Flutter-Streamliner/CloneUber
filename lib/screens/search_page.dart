@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:uber_clone_app/brand_colors.dart';
 import 'package:uber_clone_app/global_variables.dart';
 import 'package:uber_clone_app/helpers/request_helper.dart';
+import 'package:uber_clone_app/models/prediction.dart';
 import 'package:uber_clone_app/providers/app_data.dart';
 
 class SearchPage extends StatefulWidget {
@@ -36,7 +38,13 @@ class _SearchPageState extends State<SearchPage> {
     if (response == 'failed') {
       return;
     }
-    print(response);
+    if (response['status'] == 'OK') {
+      List jsonList = response['predictions'];
+      List<Prediction> predictions = jsonList
+          .map((prediction) => Prediction.fromJson(prediction))
+          .toList() as List<Prediction>;
+      print('PREDICTIONS = $predictions');
+    }
   }
 
   @override
