@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void searchPlace(String placeName) async {
-    if (placeName.length <= 1) {
+    if (placeName == null || placeName.length <= 1) {
       return;
     }
     String apiKey = Platform.isAndroid ? androidKey : iOsKey;
@@ -64,7 +63,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     setFocus();
     String address =
-        Provider.of<AppData>(context).pickeupAddress.placeName ?? '';
+        Provider.of<AppData>(context).pickeupAddress?.placeName ?? '';
     _pickupController.text = address;
     return Scaffold(
       body: SafeArea(

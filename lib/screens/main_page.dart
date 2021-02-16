@@ -40,8 +40,12 @@ class _MainPageState extends State<MainPage> {
     _mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    String address = await HelperMethods.findCordinateAddress(pos, context);
-    print('address = $address');
+    try {
+      String address = await HelperMethods.findCordinateAddress(pos, context);
+      print('address = $address');
+    } catch (e) {
+      print('failed to findCordinateAddress $e');
+    }
   }
 
   /// Determine the current position of the device.

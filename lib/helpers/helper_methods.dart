@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:uber_clone_app/helpers/request_helper.dart';
@@ -24,6 +23,7 @@ class HelperMethods {
     String url =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$API_KEY';
     var response = await RequestHelper.getRequest(url);
+    print('response=$response');
     if (response != 'failed') {
       placeAddress = response['results'][0]['formatted_address'];
       Address pickedupAddress = Address(

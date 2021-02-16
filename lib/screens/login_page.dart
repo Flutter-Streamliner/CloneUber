@@ -29,7 +29,8 @@ class _LoginPageState extends State<LoginPage> {
         style: TextStyle(fontSize: 15),
       ),
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    Scaffold.of(context).showSnackBar(snackBar);
+    //ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void login() async {
