@@ -13,6 +13,10 @@ import 'package:uber_clone_app/screens/search_page.dart';
 import 'package:uber_clone_app/styles/styles.dart';
 import 'package:uber_clone_app/widgets/brand_divider.dart';
 
+import '../helpers/helper_methods.dart';
+import '../providers/app_data.dart';
+import '../widgets/progress_dialog.dart';
+
 class MainPage extends StatefulWidget {
   static const String routeName = 'main';
   @override
@@ -236,11 +240,14 @@ class _MainPageState extends State<MainPage> {
                         height: 20,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
+                        onTap: () async {
+                          var response = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SearchPage()));
+                          if (response == 'getDirection') {
+                            await getDirection();
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -339,5 +346,23 @@ class _MainPageState extends State<MainPage> {
             )
           ],
         ));
+  }
+
+  Future<void> getDirection() async {
+    var pickup = Provider.of<AppData>(context, listen: false).pickeupAddress;
+    var destination =
+        Provider.of<AppData>(context, listen: false).destinationAddress;
+    var pickLatLng = LatLng(pickup.latitude, pickup.longitude);
+    var destinationLatLng = LatLng(destination.latitude, destination.longitude);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => ProgressDialog('Please wait'),
+    );
+    var thisDetails =
+        await HelperMethods.getDirectionDetails(pickLatLng, destinationLatLng);
+    Navigator.pop(context);
+    print(thisDetails.encodedPoints);
   }
 }
