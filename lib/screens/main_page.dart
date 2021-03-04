@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -34,6 +35,8 @@ class _MainPageState extends State<MainPage> {
   );
   double searchSheetHeight = Platform.isIOS ? 300 : 275;
 
+  List<LatLng> polylineCoordinates = [];
+  Set<Polyline> _polylines = {};
   Position currentPosition;
 
   void setupPositionLocator() async {
@@ -161,6 +164,7 @@ class _MainPageState extends State<MainPage> {
               myLocationEnabled: true,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: true,
+              polylines: _polylines,
               padding: EdgeInsets.only(bottom: mapBottomPadding),
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
@@ -375,5 +379,35 @@ class _MainPageState extends State<MainPage> {
         await HelperMethods.getDirectionDetails(pickLatLng, destinationLatLng);
     Navigator.pop(context);
     print(thisDetails);
+
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> result =
+        polylinePoints.decodePolyline(thisDetails.encodedPoints);
+
+    polylineCoordinates.clear();
+    if (result.isNotEmpty) {
+      // loop through all PointLatLng points and convert them
+      // to a list of LatLng, required by the Polyline
+      result.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+
+    _polylines.clear();
+
+    Polyline polyline = Polyline(
+      polylineId: PolylineId('polyId'),
+      color: Color.fromARGB(255, 95, 109, 237),
+      points: polylineCoordinates,
+      jointType: JointType.round,
+      width: 4,
+      startCap: Cap.roundCap,
+      endCap: Cap.roundCap,
+      geodesic: true,
+    );
+
+    setState(() {
+      _polylines.add(polyline);
+    });
   }
 }
