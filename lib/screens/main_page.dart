@@ -37,6 +37,8 @@ class _MainPageState extends State<MainPage> {
 
   List<LatLng> polylineCoordinates = [];
   Set<Polyline> _polylines = {};
+  Set<Marker> _markers = {};
+  Set<Circle> _circles = {};
   Position currentPosition;
 
   void setupPositionLocator() async {
@@ -165,6 +167,8 @@ class _MainPageState extends State<MainPage> {
               zoomGesturesEnabled: true,
               zoomControlsEnabled: true,
               polylines: _polylines,
+              markers: _markers,
+              circles: _circles,
               padding: EdgeInsets.only(bottom: mapBottomPadding),
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
@@ -432,5 +436,41 @@ class _MainPageState extends State<MainPage> {
     }
 
     _mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 70));
+
+    Marker pickupMarker = Marker(
+      markerId: MarkerId('pickup'),
+      position: pickLatLng,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      infoWindow: InfoWindow(title: pickup.placeName, snippet: 'My Location'),
+    );
+    Marker destinationMarker = Marker(
+      markerId: MarkerId('destination'),
+      position: destinationLatLng,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      infoWindow:
+          InfoWindow(title: destination.placeName, snippet: 'Destination'),
+    );
+
+    Circle pickupCircle = Circle(
+        circleId: CircleId('pickup'),
+        strokeColor: Colors.green,
+        strokeWidth: 3,
+        radius: 12,
+        center: pickLatLng,
+        fillColor: BrandColors.colorGreen);
+    Circle destinationCircle = Circle(
+        circleId: CircleId('destination'),
+        strokeColor: BrandColors.colorAccentPurple,
+        strokeWidth: 3,
+        radius: 12,
+        center: destinationLatLng,
+        fillColor: BrandColors.colorAccentPurple);
+
+    setState(() {
+      _markers.add(pickupMarker);
+      _markers.add(destinationMarker);
+      _circles.add(pickupCircle);
+      _circles.add(destinationCircle);
+    });
   }
 }
