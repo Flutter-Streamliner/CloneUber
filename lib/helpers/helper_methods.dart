@@ -44,6 +44,7 @@ class HelperMethods {
     String url =
         'https://maps.googleapis.com/maps/api/directions/json?origin=${startPosition.latitude},${startPosition.longitude}&destination=${endPosition.latitude},${endPosition.longitude}&mode=driving&key=$API_KEY';
     var response = await RequestHelper.getRequest(url);
+    print('getDirectionDetails response = $response');
     if (response == 'failed') {
       return null;
     }
@@ -53,6 +54,7 @@ class HelperMethods {
         distanceValue: response['routes'][0]['legs'][0]['distance']['value'],
         durationValue: response['routes'][0]['legs'][0]['duration']['value'],
         encodedPoints: response['routes'][0]['overview_polyline']['points ']);
+    print('directionDetails = $directionDetails');
     return directionDetails;
   }
 }

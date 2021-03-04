@@ -13,4 +13,8 @@ class DirectionDetails {
       @required this.distanceValue,
       @required this.durationValue,
       @required this.encodedPoints});
+
+  @override
+  String toString() =>
+      'DirectionDetails{distanceText=$distanceText, durationText=$durationText, distanceValue=$distanceValue, durationValue=$durationValue, encodedPoints=$encodedPoints}';
 }

@@ -290,13 +290,23 @@ class _MainPageState extends State<MainPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(Provider.of<AppData>(context)
-                                          .pickeupAddress !=
-                                      null
-                                  ? Provider.of<AppData>(context)
-                                      .pickeupAddress
-                                      .placeName
-                                  : 'Add Home'),
+                              Container(
+                                width: MediaQuery.of(context).size.width - 90,
+                                child: Expanded(
+                                  child: Text(
+                                    Provider.of<AppData>(context)
+                                                .pickeupAddress !=
+                                            null
+                                        ? Provider.of<AppData>(context)
+                                            .pickeupAddress
+                                            .placeName
+                                        : 'Add Home',
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ),
                               SizedBox(
                                 height: 3,
                               ),
@@ -305,6 +315,7 @@ class _MainPageState extends State<MainPage> {
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: BrandColors.colorDimText),
+                                overflow: TextOverflow.clip,
                               ),
                             ],
                           )
@@ -363,6 +374,6 @@ class _MainPageState extends State<MainPage> {
     var thisDetails =
         await HelperMethods.getDirectionDetails(pickLatLng, destinationLatLng);
     Navigator.pop(context);
-    print(thisDetails.encodedPoints);
+    print(thisDetails);
   }
 }
