@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -13,6 +14,7 @@ import 'package:uber_clone_app/providers/app_data.dart';
 import 'package:uber_clone_app/screens/search_page.dart';
 import 'package:uber_clone_app/styles/styles.dart';
 import 'package:uber_clone_app/widgets/brand_divider.dart';
+import 'package:uber_clone_app/widgets/confirm_button.dart';
 
 import '../helpers/helper_methods.dart';
 import '../providers/app_data.dart';
@@ -209,7 +211,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
             ),
-            // Search
+            // Search Sheet
             Positioned(
               left: 0,
               right: 0,
@@ -300,7 +302,7 @@ class _MainPageState extends State<MainPage> {
                             children: [
                               Container(
                                 width: MediaQuery.of(context).size.width - 90,
-                                child: Expanded(
+                                child: Container(
                                   child: Text(
                                     Provider.of<AppData>(context)
                                                 .pickeupAddress !=
@@ -362,7 +364,116 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
               ),
-            )
+            ),
+            // RideDetails Sheet
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 15.0, // soften the shadow
+                        spreadRadius: 0.5, //extend the shadow
+                        offset: Offset(
+                          0.7, // Move to right 10 horizontaly
+                          0.7, // Move to bottom 10 vertically
+                        ),
+                      )
+                    ]),
+                height: 230,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        color: BrandColors.colorAccent1,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'images/taxi.png',
+                                height: 70,
+                                width: 70,
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Taxi',
+                                    style: TextStyle(
+                                        fontSize: 18, fontFamily: 'Brand-Bold'),
+                                  ),
+                                  Text(
+                                    '14km',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: BrandColors.colorTextLight),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                              Text(
+                                '\$13',
+                                style: TextStyle(
+                                    fontSize: 18, fontFamily: 'Brand-Bold'),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 22,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Icon(FontAwesomeIcons.moneyBillAlt,
+                                size: 18, color: BrandColors.colorTextLight),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Text('Cash'),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              color: BrandColors.colorTextLight,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 22,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: ConfirmButton(
+                            title: 'REQUEST CAB',
+                            color: BrandColors.colorGreen,
+                            onPressed: () {}),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ));
   }

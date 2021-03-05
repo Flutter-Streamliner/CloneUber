@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>993836699208-n1plgiadggcfsion8a5lso43itt9qbb3.apps.googleusercontent.com</string>
+	<string>993836699208-d4d9rsni3ef5s7jk8hp26rk2oe1dh9ij.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.993836699208-n1plgiadggcfsion8a5lso43itt9qbb3</string>
+	<string>com.googleusercontent.apps.993836699208-d4d9rsni3ef5s7jk8hp26rk2oe1dh9ij</string>
 	<key>API_KEY</key>
 	<string>AIzaSyArqKe0S8aYMYwRyeQ7oN1nxsHVrUOasdI</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.uberCloneApp</string>
+	<string>com.thisisstreamliner.uberCloneApp</string>
 	<key>PROJECT_ID</key>
 	<string>uberclone-983d8</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:993836699208:ios:bf6d3844ab2a413ffb527d</string>
+	<string>1:993836699208:ios:21daffc4cf81311cfb527d</string>
 	<key>DATABASE_URL</key>
 	<string>https://uberclone-983d8-default-rtdb.firebaseio.com</string>
 </dict>
