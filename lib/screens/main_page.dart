@@ -579,17 +579,23 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         SizedBox(
                           height: 20,
                         ),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(
-                                width: 1.0,
-                                color: BrandColors.colorLightGrayFair),
+                        GestureDetector(
+                          onTap: () {
+                            _cancelRequest();
+                            _resetApp();
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(
+                                  width: 1.0,
+                                  color: BrandColors.colorLightGrayFair),
+                            ),
+                            child: Icon(Icons.close, size: 25),
                           ),
-                          child: Icon(Icons.close, size: 25),
                         ),
                         SizedBox(
                           height: 10,
@@ -752,6 +758,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     rideRef.set(rideMap);
   }
 
+  void _cancelRequest() {
+    rideRef.remove();
+  }
+
   void _resetApp() {
     setState(() {
       polylineCoordinates.clear();
@@ -759,6 +769,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _markers.clear();
       _circles.clear();
       rideDetailsSheetHeight = 0;
+      requestingSheetHeight = 0;
       searchSheetHeight = Platform.isAndroid ? 275 : 300;
       mapBottomPadding = Platform.isAndroid ? 280 : 270;
       drawerCanOpen = true;
