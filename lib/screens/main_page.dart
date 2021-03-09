@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -49,6 +50,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   DirectionDetails tripdirectionDetails;
 
+  DatabaseReference rideRef;
+
   void showDetailSheet() async {
     await getDirection();
     setState(() {
@@ -66,6 +69,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       mapBottomPadding = Platform.isAndroid ? 200 : 190;
       drawerCanOpen = true;
     });
+    createRideRequest();
   }
 
   void setupPositionLocator() async {
@@ -715,6 +719,37 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _circles.add(pickupCircle);
       _circles.add(destinationCircle);
     });
+  }
+
+  void createRideRequest() {
+    rideRef = FirebaseDatabase.instance.reference().child('rideRequest').push();
+    var pickup = Provider.of<AppData>(context, listen: false).pickeupAddress;
+    var destination =
+        Provider.of<AppData>(context, listen: false).destinationAddress;
+
+    Map pickupMap = {
+      'latitude': pickup.latitude.toString(),
+      'longitude': pickup.longitude.toString(),
+    };
+
+    Map destinationMap = {
+      'latitude': destination.latitude.toString(),
+      'longitude': destination.longitude.toString(),
+    };
+
+    Map rideMap = {
+      'created_at': DateTime.now().toString(),
+      'rider_name': currentUserInfo.name,
+      'rider_phone': currentUserInfo.phone,
+      'pickup_address': pickup.placeName,
+      'destination_address': destination.placeName,
+      'location': pickupMap,
+      'destination': destinationMap,
+      'payment_method': 'card',
+      'driver_id': 'waiting',
+    };
+
+    rideRef.set(rideMap);
   }
 
   void _resetApp() {
