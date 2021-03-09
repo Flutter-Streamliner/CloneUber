@@ -10,6 +10,7 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:uber_clone_app/brand_colors.dart';
 import 'package:uber_clone_app/helpers/helper_methods.dart';
+import 'package:uber_clone_app/models/direction_details.dart';
 import 'package:uber_clone_app/providers/app_data.dart';
 import 'package:uber_clone_app/screens/search_page.dart';
 import 'package:uber_clone_app/styles/styles.dart';
@@ -43,6 +44,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   Set<Marker> _markers = {};
   Set<Circle> _circles = {};
   Position currentPosition;
+
+  DirectionDetails tripdirectionDetails;
 
   void showDetailSheet() async {
     await getDirection();
@@ -436,7 +439,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                           fontFamily: 'Brand-Bold'),
                                     ),
                                     Text(
-                                      '14km',
+                                      tripdirectionDetails?.distanceText ?? '',
                                       style: TextStyle(
                                           fontSize: 18,
                                           color: BrandColors.colorTextLight),
@@ -447,7 +450,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                   child: Container(),
                                 ),
                                 Text(
-                                  '\$13',
+                                  tripdirectionDetails != null
+                                      ? '\$${HelperMethods.estimateFares(tripdirectionDetails)}'
+                                      : '',
                                   style: TextStyle(
                                       fontSize: 18, fontFamily: 'Brand-Bold'),
                                 )
@@ -513,6 +518,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     );
     var thisDetails =
         await HelperMethods.getDirectionDetails(pickLatLng, destinationLatLng);
+    setState(() {
+      tripdirectionDetails = thisDetails;
+    });
+
     Navigator.pop(context);
     print(thisDetails);
 
