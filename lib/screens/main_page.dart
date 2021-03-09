@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,6 +37,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   double searchSheetHeight = Platform.isIOS ? 300 : 275;
   double rideDetailsSheetHeight = 0; // Platform.isAndroid ? 235 : 260
+  double requestingSheetHeight = 0; // Platrofm.isAndroid ? 195 : 220
 
   List<LatLng> polylineCoordinates = [];
   Set<Polyline> _polylines = {};
@@ -54,6 +56,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       rideDetailsSheetHeight = Platform.isAndroid ? 235 : 260;
       mapBottomPadding = Platform.isAndroid ? 240 : 230;
       drawerCanOpen = false;
+    });
+  }
+
+  void showRequestingSheet() async {
+    setState(() {
+      rideDetailsSheetHeight = 0;
+      requestingSheetHeight = Platform.isAndroid ? 195 : 220;
+      mapBottomPadding = Platform.isAndroid ? 200 : 190;
+      drawerCanOpen = true;
     });
   }
 
@@ -498,8 +509,87 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           child: ConfirmButton(
                               title: 'REQUEST CAB',
                               color: BrandColors.colorGreen,
-                              onPressed: () {}),
+                              onPressed: showRequestingSheet),
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // Request Sheet
+            Positioned(
+              right: 0,
+              left: 0,
+              bottom: 0,
+              child: AnimatedSize(
+                vsync: this,
+                duration: Duration(milliseconds: 150),
+                curve: Curves.easeIn,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 15.0, // soften the shadow
+                          spreadRadius: 0.5, // extend the shadow
+                          offset: Offset(
+                            0.7, // Move to right 10 Horizontally
+                            0.7, // Move to bottom 10 Vertically
+                          ),
+                        ),
+                      ]),
+                  height: requestingSheetHeight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: TextLiquidFill(
+                            text: 'Requesting a Ride...',
+                            waveColor: BrandColors.colorTextSemiLight,
+                            boxBackgroundColor: Colors.white,
+                            textStyle: TextStyle(
+                              fontSize: 22.0,
+                              fontFamily: 'Brand-Bold',
+                            ),
+                            boxHeight: 40.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                                width: 1.0,
+                                color: BrandColors.colorLightGrayFair),
+                          ),
+                          child: Icon(Icons.close, size: 25),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          child: Text('Cancel ride',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 12)),
+                        )
                       ],
                     ),
                   ),
