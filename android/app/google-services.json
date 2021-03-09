@@ -8,7 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:993836699208:android:38e77634e960cf32fb527d",
+        "mobilesdk_app_id": "1:993836699208:android:9b7b1441a9978f16fb527d",
         "android_client_info": {
           "package_name": "com.example.uber_clone_app"
         }
@@ -21,7 +21,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDQS215TCmCUEo0fdClm4suRkhudCIi97Y"
+          "current_key": "AIzaSyAXw7GcRdCoQE7S1yEF1aplSAiR2mIJPGs"
         }
       ],
       "services": {
@@ -30,6 +30,13 @@
             {
               "client_id": "993836699208-m0aeesma9vjiv6c9upbeqcvegtb81ivt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "993836699208-d4d9rsni3ef5s7jk8hp26rk2oe1dh9ij.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thisisstreamliner.uberCloneApp"
+              }
             }
           ]
         }

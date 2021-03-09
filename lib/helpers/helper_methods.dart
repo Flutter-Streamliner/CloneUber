@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:uber_clone_app/helpers/request_helper.dart';
 import 'package:uber_clone_app/models/address.dart';
 import 'package:uber_clone_app/models/direction_details.dart';
+import 'package:uber_clone_app/models/user.dart';
 import 'package:uber_clone_app/providers/app_data.dart';
 import 'package:uber_clone_app/utils/connection.dart';
 
@@ -14,6 +17,20 @@ import 'request_helper.dart';
 
 class HelperMethods {
   static String API_KEY = Platform.isAndroid ? androidKey : iOsKey;
+
+  static void getCurrentUserInfo() async {
+    firebaseUser = firebaseAuth.FirebaseAuth.instance.currentUser;
+    String userId = firebaseUser.uid;
+
+    DatabaseReference userRef =
+        FirebaseDatabase.instance.reference().child('users/$userId');
+    userRef.once().then((DataSnapshot snapshot) {
+      if (snapshot?.value != null) {
+        currentUserInfo = User.fromSnapshot(snapshot);
+        print('my name is ${currentUserInfo.name}');
+      }
+    });
+  }
 
   static Future<String> findCordinateAddress(
       LatLng position, BuildContext context) async {

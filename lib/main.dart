@@ -52,7 +52,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         //home: HomePage(),
-        initialRoute: MainPage.routeName,
+        initialRoute:
+            firebaseUser == null ? LoginPage.routeName : MainPage.routeName,
         routes: {
           RegistrationPage.routeName: (context) => RegistrationPage(),
           LoginPage.routeName: (context) => LoginPage(),

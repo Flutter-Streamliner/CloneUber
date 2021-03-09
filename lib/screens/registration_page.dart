@@ -49,8 +49,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
         .catchError((error) {
       // check error and display message
       Navigator.pop(context);
-      PlatformException exception = error;
-      showSnackBar(exception.message);
+      print('error while registering $error');
+      //PlatformException exception = error;
+      showSnackBar(error);
     });
     if (credential.user != null) {
       print('Registration successful');
